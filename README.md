@@ -10,13 +10,7 @@ Tools Available
 ======================
 **[Export]** : Exports data from your MongoDB collections either as "CSV" (with a custom delimiter) or as "JSON". 
 
-**[Migrate]**  : Migrates data (and indexes) from one database to another (or from a server to another).
-
-**[Duplicate]** : Duplicates collections within the same database (copying indexes if necessary).
-
-**[Merge]** : Merges multiple collections into a single one
+**[Copy]**  : Migrates data (and indexes) from one database to another (or from a server to another).
 
 [Export]:https://github.com/MarcelloLins/MongoTools/wiki/Tool-:-Export
-[Migrate]:https://github.com/MarcelloLins/MongoTools/wiki/Tool:-Migration
-[Duplicate]:https://github.com/MarcelloLins/MongoTools/wiki/Tool-:-Duplicate
-[Merge]:https://github.com/MarcelloLins/MongoTools/wiki/Tool:-Merge
+[Copy]:https://github.com/MarcelloLins/MongoTools/wiki/Tool:-Migration
