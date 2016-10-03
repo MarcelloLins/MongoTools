@@ -171,6 +171,15 @@ namespace MongoToolsLib
                     {
                         try
                         {
+                            // Erasing the object ids of the buffer
+                            if (eraseObjectId)
+                            {
+                                buffer.ForEach (t =>
+                                {
+                                    t["_id"] = ObjectId.GenerateNewId();
+                                });
+                            }
+
                             targetCollection.SafeInsertBatch (buffer, 3, true, true);
                             if (loop++ % 150 == 0)
                             {

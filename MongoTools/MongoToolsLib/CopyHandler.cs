@@ -102,8 +102,11 @@ namespace MongoToolsLib
             return false;
         }
 
-        static IEnumerable<Tuple<string,string>> ListCollections (MongoDatabase sourceServer, List<string> collections)
-        {            
+        static IEnumerable<Tuple<string,string>> ListCollections (MongoDatabase sourceServer, List<string> collections, string targetCollection)
+        {   
+            // Forcing targetcollection to be null if it's empty
+            if (targetCollection == "") targetCollection = null;
+
             if (collections == null || collections.Count == 0)
             {
                 foreach (var c in sourceServer.GetCollectionNames ())
@@ -117,7 +120,7 @@ namespace MongoToolsLib
                 {
                     if (hashOrdinal.Contains (c))
                     {
-                        yield return Tuple.Create (c, c);
+                        yield return Tuple.Create (c, (targetCollection ?? c));
                     }
                     else if (c.IndexOf ('=') > 0)
                     {
@@ -130,7 +133,7 @@ namespace MongoToolsLib
                     else
                     {
                         foreach (var col in list.Where (name => SharedMethods.WildcardIsMatch (c, name, true)))
-                            yield return Tuple.Create (col, col);
+                            yield return Tuple.Create (col, (targetCollection ?? c));
                     }
                 }                
             }   
@@ -158,7 +161,7 @@ namespace MongoToolsLib
 
             // Validating whether we received multiple matches (or collection names) when the "target collection" has value
             var databases           = ListDatabases(sourceServer, targetServer, sourceDatabases, targetDatabases);
-            var matchingCollections = ListCollections(databases.First().Item1, collections).ToList();
+            var matchingCollections = ListCollections(databases.First().Item1, collections, targetCollection).ToList();
 
             if (matchingCollections != null && matchingCollections.Count > 1 && !String.IsNullOrWhiteSpace(targetCollection))
             {
@@ -173,7 +176,7 @@ namespace MongoToolsLib
                 // list databases
                 foreach (var db in ListDatabases (sourceServer, targetServer, sourceDatabases, targetDatabases))
                 {
-                    foreach (var col in ListCollections (db.Item1, collections))
+                    foreach (var col in ListCollections (db.Item1, collections, targetCollection))
                     {
                         // sanity checks
                         if (sameServer && db.Item1.ToString () == db.Item2.ToString () && col.Item1.ToString () == col.Item2.ToString ())

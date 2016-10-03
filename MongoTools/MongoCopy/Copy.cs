@@ -127,7 +127,7 @@ namespace MongoCopy
             _dropCollections = options.Get ("drop-collections", false);
             _skipExisting    = options.Get ("skip-existing", false);
             _skipCount       = options.Get("skip-count", false);
-            _eraseObjectId   = options.Get ("erase-object-id", false);
+            _eraseObjectId   = options.Get ("refresh-object-id", false);
 
             // check parameter databases
             _sourceDatabases = ParseArgumentAsList (options, "databases").Concat (ParseArgumentAsList (options, "source-database")).Distinct ().ToList ();
