@@ -12,5 +12,5 @@ Tools Available
 
 **[Copy]**  : Migrates data (and indexes) from one database to another (or from a server to another).
 
-[Export]:https://github.com/MarcelloLins/MongoTools/wiki/Tool-:-Export
-[Copy]:https://github.com/MarcelloLins/MongoTools/wiki/Tool:-Migration
+[Export]:https://github.com/MarcelloLins/MongoTools/wiki/Export
+[Copy]:https://github.com/MarcelloLins/MongoTools/wiki/Copy
