@@ -22,6 +22,7 @@ namespace MongoToolsLib
             public bool            CopyIndexes      { get; set; } 
             public bool            DropCollections  { get; set; }
             public bool            SkipCount        { get; set; }
+            public bool            EraseObjectId    { get; set; }
             public FlexibleOptions Options          { get; set; } 
         }
 
@@ -147,7 +148,7 @@ namespace MongoToolsLib
         /// <param name="copyIndexes">True if the indexes should be copied aswell, false otherwise.</param>
         /// <param name="dropCollections">The drop collections.</param>
         /// <param name="threads">The threads.</param>
-        public static void DatabaseCopy (MongoServer sourceServer, MongoServer targetServer, List<string> sourceDatabases, List<string> targetDatabases, List<string> collections, string targetCollection, int insertBatchSize = -1, bool copyIndexes = true, bool dropCollections = false, bool skipCount = false, int threads = 1, FlexibleOptions options = null)
+        public static void DatabaseCopy (MongoServer sourceServer, MongoServer targetServer, List<string> sourceDatabases, List<string> targetDatabases, List<string> collections, string targetCollection, int insertBatchSize = -1, bool copyIndexes = true, bool dropCollections = false, bool skipCount = false, bool eraseObjectId = false, int threads = 1, FlexibleOptions options = null)
         {
             if (threads <= 1)
                 threads = 1;
@@ -175,7 +176,7 @@ namespace MongoToolsLib
                     foreach (var col in ListCollections (db.Item1, collections))
                     {
                         // sanity checks
-                        if (sameServer && db.Item1 == db.Item2 && col.Item1 == col.Item2)
+                        if (sameServer && db.Item1.ToString () == db.Item2.ToString () && col.Item1.ToString () == col.Item2.ToString ())
                         {
                             NLog.LogManager.GetLogger ("DatabaseCopy").Warn ("Skiping collection, since it would be copied to itself! Database: {0}, Collection: {1}", db.Item1, col.Item1);
                             continue;                       
@@ -191,6 +192,7 @@ namespace MongoToolsLib
                             BatchSize        = insertBatchSize,
                             CopyIndexes      = copyIndexes,
                             DropCollections  = dropCollections,
+                            EraseObjectId    = eraseObjectId,
                             Options          = options,
                             SkipCount        = skipCount
                         });
@@ -202,7 +204,7 @@ namespace MongoToolsLib
 
         static void CollectionCopy (CopyInfo item)
         {
-            SharedMethods.CopyCollection (item.SourceDatabase, item.TargetDatabase, item.SourceCollection, item.TargetCollection, item.BatchSize, item.CopyIndexes, item.DropCollections, item.SkipCount, item.Options);
+            SharedMethods.CopyCollection (item.SourceDatabase, item.TargetDatabase, item.SourceCollection, item.TargetCollection, item.BatchSize, item.CopyIndexes, item.DropCollections, item.SkipCount, item.EraseObjectId, item.Options);
         }
     }
 }

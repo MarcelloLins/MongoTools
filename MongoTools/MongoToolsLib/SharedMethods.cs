@@ -23,7 +23,7 @@ namespace MongoToolsLib
         /// <param name="buffer"></param>
         /// <param name="sourceCollection"></param>
         /// <param name="insertBatchSize"></param>
-        public static void CopyCollection (MongoDatabase sourceDatabase, MongoDatabase targetDatabase, string sourceCollectionName, string targetCollectionName = "", int insertBatchSize = -1, bool copyIndexes = false, bool dropCollections = false, bool skipCount = false, FlexibleOptions options = null)
+        public static void CopyCollection (MongoDatabase sourceDatabase, MongoDatabase targetDatabase, string sourceCollectionName, string targetCollectionName = "", int insertBatchSize = -1, bool copyIndexes = false, bool dropCollections = false, bool skipCount = false, bool eraseObjectId = false, FlexibleOptions options = null)
         {
             var logger = NLog.LogManager.GetLogger ("CopyCollection");
             try

@@ -34,6 +34,7 @@ namespace MongoCopy
         private static bool               _dropCollections;
         private static bool               _skipExisting;
         private static bool               _skipCount;
+        private static bool               _eraseObjectId;
         private static List<String> _collections = new List<String> ();
         private static List<String> _sourceDatabases = new List<String> ();
         private static List<String> _targetDatabases = new List<String> ();
@@ -93,7 +94,7 @@ namespace MongoCopy
             // process list
             logger.Debug ("Start migrating data...");
 
-            CopyHandler.DatabaseCopy (sourceDatabase, targetDatabase, _sourceDatabases, _targetDatabases, _collections, _targetCollection, _insertBatchSize, _copyIndexes, _dropCollections, _skipCount, _threads, options);
+            CopyHandler.DatabaseCopy (sourceDatabase, targetDatabase, _sourceDatabases, _targetDatabases, _collections, _targetCollection, _insertBatchSize, _copyIndexes, _dropCollections, _skipCount, _eraseObjectId, _threads, options);
 
             System.Threading.Thread.Sleep (1000);
 
@@ -122,10 +123,11 @@ namespace MongoCopy
             _insertBatchSize =  options.Get ("batch-size", options.Get ("insert-batch-size", -1));
             _threads = options.Get ("threads", 1);
 
-            _copyIndexes = options.Get ("copy-indexes", false);
+            _copyIndexes     = options.Get ("copy-indexes", false);
             _dropCollections = options.Get ("drop-collections", false);
-            _skipExisting = options.Get ("skip-existing", false);
-            _skipCount    = options.Get("skip-count", false);
+            _skipExisting    = options.Get ("skip-existing", false);
+            _skipCount       = options.Get("skip-count", false);
+            _eraseObjectId   = options.Get ("erase-object-id", false);
 
             // check parameter databases
             _sourceDatabases = ParseArgumentAsList (options, "databases").Concat (ParseArgumentAsList (options, "source-database")).Distinct ().ToList ();
