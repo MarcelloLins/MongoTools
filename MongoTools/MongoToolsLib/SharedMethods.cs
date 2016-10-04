@@ -145,7 +145,7 @@ namespace MongoToolsLib
                 CreateCollection (sourceCollection, targetCollection, options);
 
                 // index creation
-                if (options.Get ("copy-indexes-before", false))
+                if (options.Get ("copy-indexes-before", false) && options.Get("copy-indexes", false))
                 {
                     CreateIndexes (sourceCollection, targetCollection, options);
                 }
